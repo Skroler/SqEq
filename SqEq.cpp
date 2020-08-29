@@ -19,15 +19,55 @@
 //-------------------------------------------------------------
 
 
-int find_d (double a, double b, double c) //discriminant finder
+int find_d (double a, double b, double c); //discriminant finder
+
+
+int find_quantity_sol (double a, double b, double c,
+                       double* x1, double* x2);
+
+void print_name_date();
+
+//-------------------------------------------------------------
+
+int main()
 {
-    return (b*b - 4*a*c);
+    print_name_date();
+
+    double a = 0, b = 0, c = 0;
+
+    scanf ("%lg %lg %lg", &a, &b, &c);
+
+    double x1 = 0, x2 = 0;
+
+    int quantity_sol = find_quantity_sol(a, b, c, &x1, &x2);
+
+    switch (quantity_sol)
+    {
+        case 0: printf ("No solutions\n");
+                break;
+
+        case 1: printf ("x = %lg \n", x1);
+                break;
+
+        case 2: printf ("x1 = %lg, x2 = %lg \n", x1, x2);
+                break;
+
+        case -1: printf("Any num");
+                break;
+
+        default: printf("main(): ERROR: quantity_sol = %d\n",
+                         quantity_sol);
+                 return 1;
+    }
+    return 0;
 }
+
+//-------------------------------------------------------------
 
 int find_quantity_sol (double a, double b, double c,
                        double* x1, double* x2)
 {
-    assert (std::isfinite (a)); //не работает без cmath и assert почему?
+    assert (std::isfinite (a)); //cmath and assert are needed to use this assert. Why?
     assert (std::isfinite (b));
     assert (std::isfinite (c));
 
@@ -72,43 +112,15 @@ int find_quantity_sol (double a, double b, double c,
     }
 }
 
+int find_d (double a, double b, double c) //discriminant finder
+{
+    return (b*b - 4*a*c);
+}
+
 void print_name_date()
 {
     printf ("# quadratic equation solver\n"
             "# (c) Yafarov Vladimir, 2020\n\n");
 
     printf ("# enter a, b, c: ");
-}
-
-int main()
-{
-    print_name_date();
-
-    double a = 0, b = 0, c = 0;
-
-    scanf ("%lg %lg %lg", &a, &b, &c);
-
-    double x1 = 0, x2 = 0;
-
-    int quantity_sol = find_quantity_sol(a, b, c, &x1, &x2);
-
-    switch (quantity_sol)
-    {
-        case 0: printf ("No solutions\n");
-                break;
-
-        case 1: printf ("x = %lg \n", x1);
-                break;
-
-        case 2: printf ("x1 = %lg, x2 = %lg \n", x1, x2);
-                break;
-
-        case -1: printf("Any num");
-                break;
-
-        default: printf("main(): ERROR: quantity_sol = %d\n",
-                         quantity_sol);
-                 return 1;
-    }
-    return 0;
 }
