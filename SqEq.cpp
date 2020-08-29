@@ -18,6 +18,7 @@
 //!       returns "-1".
 //-------------------------------------------------------------
 
+bool IsZero (double value);
 
 int find_d (double a, double b, double c); //discriminant finder
 
@@ -27,12 +28,18 @@ int find_quantity_sol (double a, double b, double c,
 
 void print_name_date();
 
+void Test_IsZero();
+
+
+
+//-------------------------------------------------------------
+//Main Function
 //-------------------------------------------------------------
 
 int main()
 {
     print_name_date();
-    
+
     printf ("# enter a, b, c: ");
 
     double a = 0, b = 0, c = 0;
@@ -61,14 +68,24 @@ int main()
                          quantity_sol);
                  return 1;
     }
+    Test_IsZero();
     return 0;
 }
 
+
+
 //-------------------------------------------------------------
+//Other functions
+//-------------------------------------------------------------
+
+bool IsZero (double value)
+    {
+    return (fabs (value) <= 1e-5); // enter error size
+    }
 
 int find_quantity_sol (double a, double b, double c,
                        double* x1, double* x2)
-{
+    {
     assert (std::isfinite (a)); //не работает без cmath и assert почему?
     assert (std::isfinite (b));
     assert (std::isfinite (c));
@@ -77,11 +94,11 @@ int find_quantity_sol (double a, double b, double c,
     assert (x2 != NULL);
     assert (x1 != x2);
 
-    if (a == 0)
+    if (IsZero(a))
     {
-        if (b == 0)
+        if (IsZero(b))
         {
-            return (c == 0) ? -1 : 0;
+            return (IsZero(c)) ? -1 : 0;
         }
         else // if b != 0
         {
@@ -115,12 +132,43 @@ int find_quantity_sol (double a, double b, double c,
 }
 
 int find_d (double a, double b, double c) //discriminant finder
-{
+    {
     return (b*b - 4*a*c);
 }
 
 void print_name_date()
-{
+    {
     printf ("# quadratic equation solver\n"
             "# (c) Yafarov Vladimir, 2020\n\n");
 }
+
+//-------------------------------------------------------------
+// Unit Test
+//-------------------------------------------------------------
+void Test_IsZero()
+    {
+
+    double val = 0;
+    int    res = IsZero (val);
+    int    exp = 1;
+
+    #define DO_TEST                                                                                            \
+        if (res == exp) {printf ("Test #%d Ok\n", __LINE__);}                                                  \
+        else            {printf ("Test #%d BAD: IsZero (%g) == %d, should be %d\n", __LINE__, val, res, exp);} \
+
+    DO_TEST
+
+           val = 1;
+           res = IsZero (val);
+           exp = 0;
+
+    DO_TEST
+
+           val = 1e-5;
+           res = IsZero (val);
+           exp = 1;
+
+    DO_TEST
+
+    #undef DO_TEST
+    }
