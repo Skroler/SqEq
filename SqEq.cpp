@@ -32,6 +32,8 @@ void print_name_date();
 int main()
 {
     print_name_date();
+    
+    printf ("# enter a, b, c: ");
 
     double a = 0, b = 0, c = 0;
 
@@ -67,7 +69,7 @@ int main()
 int find_quantity_sol (double a, double b, double c,
                        double* x1, double* x2)
 {
-    assert (std::isfinite (a)); //cmath and assert are needed to use this assert. Why?
+    assert (std::isfinite (a)); //не работает без cmath и assert почему?
     assert (std::isfinite (b));
     assert (std::isfinite (c));
 
@@ -121,6 +123,4 @@ void print_name_date()
 {
     printf ("# quadratic equation solver\n"
             "# (c) Yafarov Vladimir, 2020\n\n");
-
-    printf ("# enter a, b, c: ");
 }
